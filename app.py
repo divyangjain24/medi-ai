@@ -3,7 +3,7 @@ import requests
 from PIL import Image
 
 # === CONFIG ===
-API_KEY = "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"
+API_KEY = "OPENROUTER_API_KEY"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "openai/gpt-3.5-turbo"
 
