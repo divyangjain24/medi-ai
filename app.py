@@ -1,9 +1,10 @@
 import streamlit as st
 import requests
+import os
 from PIL import Image
 
 # === CONFIG ===
-OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+API_KEY =   st.secrets["OPENROUTER_API_KEY"]
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "openai/gpt-3.5-turbo"
 
@@ -43,7 +44,7 @@ st.markdown("""
 st.title("💼 MedMind AI Assistant")
 
 try:
-    image = Image.open("ai-doctor.jpg")  # Optional: Replace with your local image
+    image = Image.open("ai-doctor.jpg")
     st.image(image, caption="AI Doctor", use_container_width=True)
 except:
     st.image(
@@ -62,8 +63,8 @@ with st.sidebar:
         "💊 Medicine Details",
         "🧘 Mental Health",
         "🌿 Natural Remedies",
-        "🧪 Symptom Checker",
-        "🤖 Talk to Doctor AI"
+        "🤖 Talk to Doctor AI",
+        "🧪 Symptom Checker"
     ])
 
 # === API FUNCTION ===
@@ -113,7 +114,7 @@ if section == "🩺 Illness Diagnosis":
 elif section == "💊 Medicine Details":
     st.header("💊 Medicine Information")
     st.markdown("Get accurate details on usage, dosage, risks, and interactions.")
-    med, go = render_input("Enter medicine name:", "e.g. paracetamol", "Get Info")
+    med, go = render_input("Enter medicine name:", "e.g. Paracetamol", "Get Info")
     if go and med:
         query = f"""Provide details for the medicine "{med}" including:
 1. What it treats
@@ -127,7 +128,7 @@ elif section == "💊 Medicine Details":
 elif section == "🧘 Mental Health":
     st.header("🧘 Psychology & Mental Wellness")
     st.markdown("Get therapeutic strategies, mindfulness techniques, and mental health guidance.")
-    topic, go = render_input("Enter mental health concern:", "e.g. anxiety, burnout", "Get Support")
+    topic, go = render_input("Enter mental health concern:", "e.g. anxiety, depression", "Get Support")
     if go and topic:
         query = f"""Explain the mental health topic "{topic}" with:
 1. Psychological background
@@ -150,19 +151,6 @@ elif section == "🌿 Natural Remedies":
 4. Lifestyle and prevention tips
 5. What to avoid during condition"""
         st.markdown(call_openrouter(query, "You are an Ayurvedic and homeopathy expert."))
-
-elif section == "🧪 Symptom Checker":
-    st.header("🧪 Symptom Checker")
-    st.markdown("Enter multiple symptoms and get a possible diagnosis with suggestions.")
-    symptoms, go = render_input("Enter your symptoms:", " ", "Check Symptoms")
-    if go and symptoms:
-        query = f"""You are an experienced diagnostic AI. A user describes the following symptoms: "{symptoms}". Please provide:
-1. Most likely illness or condition
-2. Possible causes
-3. Recommended diagnostic tests (if any)
-4. Immediate care suggestions
-5. When to consult a doctor"""
-        st.markdown(call_openrouter(query, "You are a medical diagnosis expert."))
 
 elif section == "🤖 Talk to Doctor AI":
     st.header("🤖 Talk to Doctor AI")
@@ -189,3 +177,15 @@ elif section == "🤖 Talk to Doctor AI":
     for chat in st.session_state.chat_history:
         with st.chat_message(chat["role"]):
             st.markdown(chat["content"])
+
+elif section == "🧪 Symptom Checker":
+    st.header("🧪 Symptom Checker")
+    st.markdown("Enter your symptoms (comma-separated) to get possible illness and suggestions.")
+    symptoms, go = render_input("Enter symptoms:", "e.g. fever, cough, headache", "Check")
+    if go and symptoms:
+        query = f"""Given the symptoms: {symptoms}, predict:
+1. Possible medical condition(s)
+2. Likely causes
+3. Medical advice and suggestions"""
+        st.markdown(call_openrouter(query, "You are an AI medical assistant trained to diagnose based on symptoms."))
+
