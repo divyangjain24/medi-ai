@@ -99,7 +99,7 @@ def render_input(label, placeholder, button_label):
 if section == "🩺 Illness Diagnosis":
     st.header("🩺 Diagnose Illness")
     st.markdown("Get symptoms, causes, treatment, diet, and lifestyle guidance.")
-    illness, go = render_input("Enter illness name:", "e.g. diabetes, dengue", "Get Info")
+    illness, go = render_input("Enter illness name:", " ", "Get Info")
     if go and illness:
         query = f"""Provide professional medical info on "{illness}" with:
 1. Definition & cause
@@ -114,7 +114,7 @@ if section == "🩺 Illness Diagnosis":
 elif section == "💊 Medicine Details":
     st.header("💊 Medicine Information")
     st.markdown("Get accurate details on usage, dosage, risks, and interactions.")
-    med, go = render_input("Enter medicine name:", "e.g. Paracetamol", "Get Info")
+    med, go = render_input("Enter medicine name:", " ", "Get Info")
     if go and med:
         query = f"""Provide details for the medicine "{med}" including:
 1. What it treats
@@ -128,7 +128,7 @@ elif section == "💊 Medicine Details":
 elif section == "🧘 Mental Health":
     st.header("🧘 Psychology & Mental Wellness")
     st.markdown("Get therapeutic strategies, mindfulness techniques, and mental health guidance.")
-    topic, go = render_input("Enter mental health concern:", "e.g. anxiety, depression", "Get Support")
+    topic, go = render_input("Enter mental health concern:", " ", "Get Support")
     if go and topic:
         query = f"""Explain the mental health topic "{topic}" with:
 1. Psychological background
@@ -142,7 +142,7 @@ elif section == "🧘 Mental Health":
 elif section == "🌿 Natural Remedies":
     st.header("🌿 Homeopathy & Natural Remedies")
     st.markdown("Discover natural and homeopathic cures with lifestyle guidance.")
-    condition, go = render_input("Enter condition:", "e.g. headache, joint pain", "Get Remedy")
+    condition, go = render_input("Enter condition:", " ", "Get Remedy")
     if go and condition:
         query = f"""Suggest homeopathy and natural remedies for "{condition}" with:
 1. Homeopathic medicine (with potencies)
