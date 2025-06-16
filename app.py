@@ -1,10 +1,9 @@
 import streamlit as st
 import requests
-import os
 from PIL import Image
 
 # === CONFIG ===
-API_KEY =   st.secrets["OPENROUTER_API_KEY"]
+API_KEY = st.secrets["OPENROUTER_API_KEY"]
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "openai/gpt-3.5-turbo"
 
@@ -61,6 +60,7 @@ with st.sidebar:
     section = st.radio("Choose a service:", [
         "🩺 Illness Diagnosis",
         "💊 Medicine Details",
+        "💉 Illness to Medicines",
         "🧘 Mental Health",
         "🌿 Natural Remedies",
         "🤖 Talk to Doctor AI",
@@ -99,7 +99,7 @@ def render_input(label, placeholder, button_label):
 if section == "🩺 Illness Diagnosis":
     st.header("🩺 Diagnose Illness")
     st.markdown("Get symptoms, causes, treatment, diet, and lifestyle guidance.")
-    illness, go = render_input("Enter illness name:", " ", "Get Info")
+    illness, go = render_input("Enter illness name:", "", "Get Info")
     if go and illness:
         query = f"""Provide professional medical info on "{illness}" with:
 1. Definition & cause
@@ -114,7 +114,7 @@ if section == "🩺 Illness Diagnosis":
 elif section == "💊 Medicine Details":
     st.header("💊 Medicine Information")
     st.markdown("Get accurate details on usage, dosage, risks, and interactions.")
-    med, go = render_input("Enter medicine name:", " ", "Get Info")
+    med, go = render_input("Enter medicine name:", "", "Get Info")
     if go and med:
         query = f"""Provide details for the medicine "{med}" including:
 1. What it treats
@@ -125,10 +125,23 @@ elif section == "💊 Medicine Details":
 6. Overdose and missed dose instructions"""
         st.markdown(call_openrouter(query, "You are a professional pharmacist."))
 
+elif section == "💉 Illness to Medicines":
+    st.header("💉 Get Medicines for Illness")
+    st.markdown("Enter any illness name and get a list of common medicines prescribed for it.")
+    illness_name, go = render_input("Enter illness name:", "e.g. migraine, asthma", "Find Medicines")
+    if go and illness_name:
+        query = f"""Give a list of commonly prescribed medicines for the illness "{illness_name}". Include:
+1. Medicine name
+2. Dosage form (tablet, syrup, etc.)
+3. Purpose
+4. OTC or prescription
+5. Warnings or interactions"""
+        st.markdown(call_openrouter(query, "You are a senior medical doctor and pharmacology expert."))
+
 elif section == "🧘 Mental Health":
     st.header("🧘 Psychology & Mental Wellness")
     st.markdown("Get therapeutic strategies, mindfulness techniques, and mental health guidance.")
-    topic, go = render_input("Enter mental health concern:", " ", "Get Support")
+    topic, go = render_input("Enter mental health concern:", "", "Get Support")
     if go and topic:
         query = f"""Explain the mental health topic "{topic}" with:
 1. Psychological background
@@ -142,7 +155,7 @@ elif section == "🧘 Mental Health":
 elif section == "🌿 Natural Remedies":
     st.header("🌿 Homeopathy & Natural Remedies")
     st.markdown("Discover natural and homeopathic cures with lifestyle guidance.")
-    condition, go = render_input("Enter condition:", " ", "Get Remedy")
+    condition, go = render_input("Enter condition:", "", "Get Remedy")
     if go and condition:
         query = f"""Suggest homeopathy and natural remedies for "{condition}" with:
 1. Homeopathic medicine (with potencies)
@@ -155,7 +168,6 @@ elif section == "🌿 Natural Remedies":
 elif section == "🤖 Talk to Doctor AI":
     st.header("🤖 Talk to Doctor AI")
     st.markdown("Chat live with a friendly AI doctor. Ask anything about health, symptoms, or general advice.")
-
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
@@ -188,4 +200,3 @@ elif section == "🧪 Symptom Checker":
 2. Likely causes
 3. Medical advice and suggestions"""
         st.markdown(call_openrouter(query, "You are an AI medical assistant trained to diagnose based on symptoms."))
-
