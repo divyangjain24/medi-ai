@@ -128,7 +128,7 @@ elif section == "💊 Medicine Details":
 elif section == "💉 Illness to Medicines":
     st.header("💉 Get Medicines for Illness")
     st.markdown("Enter any illness name and get a list of common medicines prescribed for it.")
-    illness_name, go = render_input("Enter illness name:", "e.g. migraine, asthma", "Find Medicines")
+    illness_name, go = render_input("Enter illness name:", " ", "Find Medicines")
     if go and illness_name:
         query = f"""Give a list of commonly prescribed medicines for the illness "{illness_name}". Include:
 1. Medicine name
