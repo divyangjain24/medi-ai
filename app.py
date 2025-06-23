@@ -7,7 +7,7 @@ API_KEY = st.secrets["OPENROUTER_API_KEY"]
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "model": "openai/gpt-3.5-turbo"
 
-"
+
 
 # === PAGE SETTINGS ===
 st.set_page_config(page_title="MedMind AI", layout="wide", initial_sidebar_state="expanded")
