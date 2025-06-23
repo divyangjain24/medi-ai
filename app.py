@@ -5,7 +5,8 @@ from PIL import Image
 # === CONFIG ===
 API_KEY = st.secrets["OPENROUTER_API_KEY"]
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL = ""model": "mistralai/mistral-7b-instruct"
+MODEL = "model": "openai/gpt-3.5-turbo"
+
 "
 
 # === PAGE SETTINGS ===
