@@ -5,7 +5,8 @@ from PIL import Image
 # === CONFIG ===
 API_KEY = st.secrets["OPENROUTER_API_KEY"]
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL = "openai/gpt-3.5-turbo"
+MODEL = ""model": "mistralai/mistral-7b-instruct"
+"
 
 # === PAGE SETTINGS ===
 st.set_page_config(page_title="MedMind AI", layout="wide", initial_sidebar_state="expanded")
